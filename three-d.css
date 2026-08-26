@@ -1,0 +1,34 @@
+/* CINEMATIC 3D LAYER */
+:root{--depth:0px;--tiltX:0deg;--tiltY:0deg;--mx:50%;--my:50%}
+body{perspective:1400px;overflow-x:hidden}
+body:after{content:"";position:fixed;inset:0;pointer-events:none;z-index:50;background:radial-gradient(circle at var(--mx) var(--my),rgba(255,255,255,.18),transparent 17%),linear-gradient(115deg,transparent 0 42%,rgba(255,255,255,.055) 50%,transparent 58%);mix-blend-mode:screen;opacity:.7}
+.hero-visual{perspective:1200px;transform-style:preserve-3d}
+.scene{transform-style:preserve-3d;transition:box-shadow .6s ease}
+.scene-grid{transform:translateZ(-100px) scale(1.15);opacity:.38!important}
+.core{transform:translateZ(90px);animation:coreFloat 7s ease-in-out infinite;will-change:transform}
+.ring{transform-style:preserve-3d;will-change:transform}
+.r1{transform:translateZ(40px) rotateX(68deg)!important;animation:ringA 16s linear infinite}
+.r2{transform:translateZ(20px) rotateY(67deg)!important;animation:ringB 19s linear infinite}
+.r3{transform:translateZ(5px) rotateX(65deg) rotateY(18deg)!important;animation:ringC 23s linear infinite reverse}
+.orbit-svg{transform:translateZ(65px);animation:svgOrbit 28s linear infinite;filter:drop-shadow(0 0 12px rgba(75,183,201,.24))}
+.floating-card,.sat,.mini-orb,.edge-object{transform-style:preserve-3d;backface-visibility:hidden}
+.edge-a{transform:translateZ(130px) rotate(-14deg)!important;animation:edgeA 5s ease-in-out infinite}
+.edge-b{transform:translateZ(115px) rotate(18deg)!important;animation:edgeB 6s ease-in-out infinite}
+.floating-card{backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.scan{transform:translateZ(150px);animation:scan 6s ease-in-out infinite!important}
+.section{transform-style:preserve-3d}
+.work-card{transform-style:preserve-3d;transition:transform .5s cubic-bezier(.2,.8,.2,1),box-shadow .5s ease}
+.work-card>*{transform:translateZ(20px)}
+.skill{transform-style:preserve-3d}.skill strong{transform:translateZ(18px);display:block}.skill small{transform:translateZ(12px);display:block}
+.showcase{transform-style:preserve-3d}.orbital-card{transform-style:preserve-3d}.orbital-core{transform:translateZ(55px);animation:coreFloat 6s ease-in-out infinite}
+.hero-copy{transform-style:preserve-3d}.hero-copy h1{transform:translateZ(24px);text-shadow:0 14px 40px rgba(45,70,100,.08)}
+@keyframes coreFloat{0%,100%{transform:translateZ(90px) translateY(0) rotateX(0)}50%{transform:translateZ(115px) translateY(-12px) rotateX(4deg)}}
+@keyframes ringA{to{transform:translateZ(40px) rotateX(68deg) rotateZ(360deg)!important}}
+@keyframes ringB{to{transform:translateZ(20px) rotateY(67deg) rotateZ(-360deg)!important}}
+@keyframes ringC{to{transform:translateZ(5px) rotateX(65deg) rotateY(18deg) rotateZ(360deg)!important}}
+@keyframes svgOrbit{to{transform:translateZ(65px) rotateZ(360deg)}}
+@keyframes edgeA{0%,100%{margin-top:0;transform:translateZ(130px) rotate(-14deg) rotateY(0)!important}50%{margin-top:-14px;transform:translateZ(150px) rotate(-8deg) rotateY(28deg)!important}}
+@keyframes edgeB{0%,100%{margin-top:0;transform:translateZ(115px) rotate(18deg) rotateX(0)!important}50%{margin-top:12px;transform:translateZ(145px) rotate(26deg) rotateX(22deg)!important}}
+@keyframes scan{0%,100%{opacity:.15;transform:translateZ(150px) translateY(-25px)}50%{opacity:.55;transform:translateZ(150px) translateY(25px)}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
+@media(max-width:800px){body:after{display:none}.core{animation:none}.scene{transform:none!important}.r1,.r2,.r3,.orbit-svg{animation-duration:45s!important}}
