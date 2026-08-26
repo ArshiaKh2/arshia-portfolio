@@ -1,5 +1,9 @@
 const glow=document.querySelector('.cursor-glow');const scene=document.querySelector('#scene');
-window.addEventListener('pointermove',e=>{if(glow){glow.style.left=e.clientX+'px';glow.style.top=e.clientY+'px'}if(!scene||window.innerWidth<901)return;const r=scene.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;scene.style.transform=`rotateX(${-y*7}deg) rotateY(${x*9}deg)`});
-window.addEventListener('pointerleave',()=>{if(scene)scene.style.transform='rotateX(0deg) rotateY(0deg)'});
+let mx=.5,my=.5,tx=.5,ty=.5;
+window.addEventListener('pointermove',e=>{tx=e.clientX/window.innerWidth;ty=e.clientY/window.innerHeight;if(glow){glow.style.left=e.clientX+'px';glow.style.top=e.clientY+'px'}});
+function render(){mx+=(tx-mx)*.07;my+=(ty-my)*.07;if(scene&&window.innerWidth>900){const r=scene.getBoundingClientRect(),x=(mx*window.innerWidth-r.left)/r.width-.5,y=(my*window.innerHeight-r.top)/r.height-.5;scene.style.transform=`rotateX(${-y*9}deg) rotateY(${x*12}deg) translateZ(0)`}requestAnimationFrame(render)}render();
+window.addEventListener('pointerleave',()=>{tx=.5;ty=.5});
 const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.12});document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
-const sats=[...document.querySelectorAll('.sat')];let t=0;function orbit(){t+=.006;sats.forEach((el,i)=>{const a=t*(i%2?-1:1)+i*1.7;el.style.transform=`translate3d(${Math.sin(a)*8}px,${Math.cos(a*1.2)*8}px,${Math.sin(a)*18}px)`});requestAnimationFrame(orbit)}orbit();
+const sats=[...document.querySelectorAll('.sat')],cards=[...document.querySelectorAll('.floating-card')],orbs=[...document.querySelectorAll('.mini-orb')];let t=0;
+function orbit(){t+=.008;sats.forEach((el,i)=>{const a=t*(i%2?-1:1)+i*1.7;el.style.transform=`translate3d(${Math.sin(a)*14}px,${Math.cos(a*1.2)*12}px,${70+Math.sin(a)*35}px)`});cards.forEach((el,i)=>{el.style.transform=`translate3d(${Math.sin(t*(i%2?-.55:.7))*9}px,${Math.cos(t*.8+i)*10}px,${75+Math.sin(t+i)*12}px) rotateX(${Math.sin(t+i)*2}deg)`});orbs.forEach((el,i)=>{const a=t*(i?-.8:1.1)+i;el.style.transform=`translate3d(${Math.cos(a)*55}px,${Math.sin(a)*42}px,${120+Math.sin(a)*30}px)`});requestAnimationFrame(orbit)}orbit();
+window.addEventListener('scroll',()=>{const y=window.scrollY;document.documentElement.style.setProperty('--scroll-y',y+'px')},{passive:true});
