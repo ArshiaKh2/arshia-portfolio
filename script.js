@@ -1,13 +1,5 @@
-const glow = document.querySelector('.cursor-glow');
-window.addEventListener('pointermove', (e) => {
-  glow.style.left = e.clientX + 'px';
-  glow.style.top = e.clientY + 'px';
-});
-
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) entry.target.classList.add('visible');
-  });
-}, { threshold: 0.14 });
-
-document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+const glow=document.querySelector('.cursor-glow');const scene=document.querySelector('#scene');
+window.addEventListener('pointermove',e=>{if(glow){glow.style.left=e.clientX+'px';glow.style.top=e.clientY+'px'}if(!scene||window.innerWidth<901)return;const r=scene.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;scene.style.transform=`rotateX(${-y*7}deg) rotateY(${x*9}deg)`});
+window.addEventListener('pointerleave',()=>{if(scene)scene.style.transform='rotateX(0deg) rotateY(0deg)'});
+const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.12});document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+const sats=[...document.querySelectorAll('.sat')];let t=0;function orbit(){t+=.006;sats.forEach((el,i)=>{const a=t*(i%2?-1:1)+i*1.7;el.style.transform=`translate3d(${Math.sin(a)*8}px,${Math.cos(a*1.2)*8}px,${Math.sin(a)*18}px)`});requestAnimationFrame(orbit)}orbit();
