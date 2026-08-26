@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://arshiakh2.github.io/arshia-portfolio/sitemap.xml
