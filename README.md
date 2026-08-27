@@ -1,15 +1,21 @@
 # Arshia Khaleghi — Portfolio
 
-A static, GitHub Pages-ready personal portfolio for Arshia Khaleghi.
+Static GitHub Pages portfolio for Arshia Khaleghi.
+
+## Production entry point
+
+`index.html` is the only runtime entry point for the current portfolio. The page is self-contained and does not require a package manager, build step, external JavaScript library, analytics SDK, or remote font service.
 
 ## Run locally
 
-Open `index.html` directly, or use a simple local server.
+Open `index.html` directly in a browser or serve the repository with any simple static web server.
 
-## Publish on GitHub Pages
+## Publish with GitHub Pages
 
-1. Create a repository (for example: `ArshiaKh2/portfolio`).
-2. Upload `index.html`, `style.css`, `script.js`, and `assets/`.
-3. In GitHub: Settings → Pages → Deploy from branch → `main` → `/root`.
+Use **Settings → Pages → Deploy from branch → `main` → `/root`**.
 
-No build step is required.
+The repository also includes `.nojekyll`, `404.html`, `robots.txt`, `sitemap.xml`, and `.well-known/security.txt`.
+
+## Security
+
+See `SECURITY.md` for the defensive audit, tested controls, limitations, and deployment-level recommendations.
