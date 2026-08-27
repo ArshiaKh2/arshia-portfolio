@@ -1,47 +1,76 @@
 # Security Audit — Arshia Portfolio
 
-Scope: static portfolio repository and its client-side code. No destructive tests, exploitation, credential attacks, scanning of third-party systems, or persistence techniques were used.
+Scope: public static portfolio repository and client-side code. No destructive testing, exploitation, credential attacks, third-party scanning, or persistence techniques were used.
 
 ## Executive summary
 
-No critical or high-severity exploit path was identified in the reviewed static portfolio. There is no login system, server-side API, database, payment flow, user-submitted form, or obvious untrusted HTML sink in the current page.
+No critical/high exploit path was substantiated in the reviewed static portfolio. The current app has no login, server-side API, database, payment flow, user-submitted form, or URL-parameter-driven HTML rendering.
 
-The main findings are hardening and maintenance issues:
+## Control status
 
-### M1 — Inline CSS/JavaScript weakens CSP
-**Risk:** Medium  
-**Impact:** A strict Content-Security-Policy cannot be applied without allowing inline code. If a future change introduces an HTML injection point, the current inline execution model increases the blast radius.  
-**Remediation:** Move executable JavaScript into external files and progressively move styles to external CSS. Use a restrictive CSP with `script-src 'self'`.
+### IMPLEMENTED
+- **Attack-surface reduction:** removed the Google Fonts runtime dependency from the production `index.html`; no runtime third-party JavaScript library or API is required.
+- **Privacy minimization:** public contact surface reduced to professional email and GitHub only. Phone, Telegram, and Instagram were removed from the audited build because those extra destinations were not independently verified in this review.
+- **XSS/DOM hygiene:** repository code search found no `innerHTML` or `eval` usage. Current page does not read URL parameters or insert user-controlled HTML into the DOM.
+- **External-link hardening:** external links using a new browsing context use `rel="noopener noreferrer"`.
+- **CSP baseline:** a same-origin allowlist is present via CSP meta tag. `object-src 'none'`, `base-uri 'self'`, `form-action 'self'`, self-only network/resource directives, and no remote image/font origins are enforced at document level.
+- **Referrer policy:** `strict-origin-when-cross-origin` is declared in the document.
+- **Positioning:** the public narrative is unified as **DIGITAL ENGINEER — WEB · AI · CREATIVE TECHNOLOGY · SECURITY**.
+- **No fake security UI:** there is no fabricated SOC/terminal/security-lab surface presented as a real control.
 
-### M2 — Third-party Google Fonts dependency
-**Risk:** Medium  
-**Impact:** The page depends on an external origin for typography. An outage affects appearance, and the browser contacts a third party during page load. It also expands the CSP allowlist.  
-**Remediation:** Self-host production fonts in the repository when practical; otherwise explicitly allow only the required font origins.
+### TESTED
+- GitHub repository code search returned no matches for: `innerHTML`, `eval`, `api_key`, `token`, `password`, `sk-`, `ghp_`, `AIza`, `BEGIN PRIVATE KEY`.
+- Commit search for `secret` returned no matching commits in the repository search used for this review.
+- Current production tree was inspected and confirmed to be static HTML/CSS/JS with no authentication, backend API, database, or payment workflow.
+- `robots.txt`, `sitemap.xml`, `404.html`, and `.well-known/security.txt` were inspected for obvious leakage or configuration problems.
 
-### M3 — Missing response-level security headers
-**Risk:** Low/Medium  
-**Impact:** Controls such as HSTS, `X-Content-Type-Options`, and `frame-ancestors` are strongest as HTTP response headers. A static GitHub Pages file cannot reliably configure arbitrary response headers by adding HTML alone.  
-**Remediation:** Use platform-supported header configuration where available, or put the site behind a platform/CDN that allows custom security headers.
+**Limitation:** repository code search and commit-message search are not a cryptographic proof that every object in the entire Git history is secret-free. A complete historical secret scan should be performed with a dedicated tool against every reachable commit when that capability is available.
 
-### M4 — Multiple experimental/duplicate presentation files
-**Risk:** Low  
-**Impact:** Extra `v2`, `final`, `three-d`, `premium`, and other experimental files increase maintenance and deployment confusion. This is not an active exploit, but it raises the chance of shipping an unintended version.  
-**Remediation:** Keep one production entry point and archive/remove obsolete experiments after confirming they are no longer needed.
+### CONCEPT / DEPLOYMENT
+- **Strict CSP without `unsafe-inline`:** not yet implemented. The current single-file architecture still contains inline CSS/JS, so the CSP baseline intentionally permits inline execution. The next hardening step is moving CSS/JS into same-origin files and removing `unsafe-inline`.
+- **HTTP response headers:** HSTS, `X-Content-Type-Options`, `Permissions-Policy`, and `frame-ancestors` are not marked as deployed here. GitHub Pages static content cannot be assumed to set arbitrary response headers from HTML. Verify the live response or place the site behind a header-configurable deployment layer.
+- **Server-side validation:** not applicable today because there is no server-side form/API/auth flow. If one is added, client validation must never be treated as the security boundary.
+- **Dependency vulnerability scan:** there is no package manifest in this static production surface, but the repository still contains historical/experimental files. Those should not be treated as part of the production runtime.
+- **Branch protection:** `main` is currently not protected and has no required status checks. Enabling branch protection/required CI is recommended for engineering hardening.
 
-### L1 — External-link hardening
-**Risk:** Low  
-**Impact:** Links that open a new browsing context can be exposed to reverse-tabnabbing if `noopener` is omitted.  
-**Remediation:** Add `rel="noopener noreferrer"` to every external link using `target="_blank"`.
+## Findings and remediation
 
-### L2 — Public contact information
-**Risk:** Informational  
-**Impact:** The phone number and email are intentionally public contact channels; they can attract spam or scraping.  
-**Remediation:** Keep them only if public contact is intended; otherwise use a dedicated professional contact channel.
+### M1 — Inline CSS/JavaScript
+**Risk:** Medium
 
-## 404 finding
+Inline code prevents a strict CSP from being used today.
 
-`index.html` is present on the `main` branch, so a root-level GitHub Pages 404 is not explained by a missing entry file in the repository. A 404 at the published URL is more consistent with GitHub Pages source/configuration, deployment state, propagation/cache, or an incorrect Pages project path. A repository-side `.nojekyll` and custom `404.html` are useful hardening measures, but they cannot override an incorrect Pages source configuration.
+**Remediation:** move CSS and JS to same-origin files, then remove `unsafe-inline` from CSP.
 
-## Validation notes
+### M2 — Historical experimental files
+**Risk:** Low
 
-The live public URL could not be conclusively validated from this environment because the external page fetch returned a cache miss. The repository itself was directly inspected.
+The repository contains old presentation variants and support files such as `final.html`, `v2.html`, `cinematic-*`, `premium.css`, `three-d.css`, `upgrade.css`, `world.*`, `style.css`, and `script.js`. They are not required by the current single-file production page.
+
+**Remediation:** archive or delete confirmed-obsolete experiments to reduce maintenance and accidental-deploy surface.
+
+### M3 — Response-level security headers
+**Risk:** Low/Medium
+
+Document metadata cannot be treated as equivalent to HTTP response headers for all controls.
+
+**Remediation:** verify the published response headers and configure them at a supported edge/CDN/deployment layer when needed.
+
+## Future application security rule
+
+When forms, APIs, authentication, dashboards, or external integrations are introduced:
+
+- validate and authorize on the server;
+- treat all client-side values as untrusted;
+- use parameterized database queries;
+- apply CSRF protection where applicable;
+- keep secrets in server-side secret storage, never frontend bundles;
+- log security events without storing credentials or unnecessary personal data.
+
+## 404 note
+
+`index.html` exists on `main`. A published root-level 404 is therefore more consistent with Pages source/configuration, deployment state, project path, or cache/propagation than a missing entry file.
+
+## Validation note
+
+The live public URL could not be conclusively fetched from this environment because the external fetch returned a cache miss. Repository-side checks above were performed directly against the GitHub repository.
