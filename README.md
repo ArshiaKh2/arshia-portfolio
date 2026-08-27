@@ -1,21 +1,52 @@
 # Arshia Khaleghi — Portfolio
 
-Static GitHub Pages portfolio for Arshia Khaleghi.
+A production-focused, static portfolio for Arshia Khaleghi.
 
-## Production entry point
+## Architecture
 
-`index.html` is the only runtime entry point for the current portfolio. The page is self-contained and does not require a package manager, build step, external JavaScript library, analytics SDK, or remote font service.
+The repository intentionally keeps a small production surface:
+
+- `index.html` — single runtime page, self-contained UI, responsive layout, 3D/CSS scene, interactions and case-study content.
+- `404.html` — GitHub Pages fallback.
+- `robots.txt` — crawler policy.
+- `sitemap.xml` — canonical site map.
+- `.nojekyll` — prevents Jekyll processing on GitHub Pages.
+- `.well-known/security.txt` — security contact/disclosure metadata.
+- `SECURITY.md` — defensive security documentation and deployment limitations.
+
+Legacy duplicate HTML/CSS/JS variants were removed so there is one clear production entry point instead of multiple competing versions.
+
+## Design direction
+
+The portfolio combines:
+
+- Web engineering
+- AI / Python experimentation
+- Creative technology
+- Security-minded development
+- Lightweight 3D/CSS interaction
+- Persian RTL content
+
+The visual system favors cinematic depth and interaction without depending on a heavy 3D framework.
 
 ## Run locally
 
-Open `index.html` directly in a browser or serve the repository with any simple static web server.
+Open `index.html` directly in a modern browser, or serve the repository with any simple static web server.
 
-## Publish with GitHub Pages
+## GitHub Pages
 
-Use **Settings → Pages → Deploy from branch → `main` → `/root`**.
+Deploy the `main` branch from the repository root using GitHub Pages.
 
-The repository also includes `.nojekyll`, `404.html`, `robots.txt`, `sitemap.xml`, and `.well-known/security.txt`.
+## Security notes
 
-## Security
+The project is static-first and contains no server-side credentials. The client-side security policy is intentionally restrictive, but hosting-level HTTP response headers are controlled by GitHub Pages and cannot all be configured from `index.html` alone.
 
-See `SECURITY.md` for the defensive audit, tested controls, limitations, and deployment-level recommendations.
+See `SECURITY.md` for the defensive audit and limitations.
+
+## Quality rules
+
+- No fake clients, metrics, certifications or security claims.
+- No secrets in frontend code.
+- Prefer native browser APIs over unnecessary dependencies.
+- Respect `prefers-reduced-motion`.
+- Keep the deployment surface small.
