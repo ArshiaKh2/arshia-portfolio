@@ -4,10 +4,27 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="Arshia Khaleghi — Digital Engineer. Web, AI, creative technology and security-minded engineering.">
+<meta name="theme-color" content="#07080c">
 <title>Arshia Khaleghi — Digital Engineer</title>
-<style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#07080c}iframe{display:block;width:100%;height:100%;border:0}</style>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#07080c;font-family:Inter,Segoe UI,Tahoma,Arial,sans-serif}iframe{display:block;width:100%;height:100%;border:0}.ari{position:fixed;z-index:99;left:22px;bottom:22px;width:min(330px,calc(100vw - 44px));direction:rtl;color:#f6f6f3;pointer-events:none}.ariBox{pointer-events:auto;position:relative;padding:15px 17px 14px;border:1px solid #ffffff1c;border-radius:20px;background:#0b0d12dd;backdrop-filter:blur(20px);box-shadow:0 20px 70px #0008,0 0 35px #7c62ff14;transform:translateY(10px);opacity:0;transition:.35s ease}.ari.open .ariBox{transform:none;opacity:1}.ariTop{display:flex;align-items:center;gap:10px;margin-bottom:8px}.ariAvatar{width:34px;height:34px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,#fff,#a982ff);color:#08090c;font-weight:950;box-shadow:0 0 24px #a982ff55}.ariName{font-weight:900;font-size:12px}.ariStatus{font-size:10px;color:#77e1ab}.ariText{margin:0;color:#c5c8d1;font-size:12px;line-height:1.8}.ariClose{position:absolute;top:8px;left:9px;border:0;background:transparent;color:#777d89;cursor:pointer}.ariBubble{pointer-events:auto;position:absolute;right:0;bottom:0;width:50px;height:50px;border:1px solid #ffffff25;border-radius:16px;background:#11141c;color:#fff;cursor:pointer;box-shadow:0 12px 45px #0009;display:grid;place-items:center;font-size:21px;transition:.25s}.ari.open .ariBubble{transform:translateY(68px);opacity:.45}.ariBubble:hover{transform:translateY(-3px)}.ariLinks{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}.ariLinks a{font-size:10px;padding:7px 9px;border:1px solid #ffffff16;border-radius:9px;color:#bfc3cc;text-decoration:none;background:#ffffff06}.ariLinks a:hover{color:#fff;background:#ffffff10}.hint{position:fixed;z-index:98;left:23px;bottom:84px;color:#6f7582;font-size:9px;opacity:.8;pointer-events:none}@media(max-width:600px){.ari{left:12px;bottom:12px;width:calc(100vw - 24px)}.ariBox{padding:13px}.hint{display:none}}
+</style>
 </head>
 <body>
-<iframe src="./index.v2.html" title="Arshia Khaleghi — Digital Engineer" loading="eager"></iframe>
+<iframe src="./index.v2.html" title="Arshia Khaleghi — Digital Engineer" loading="eager" name="portfolio"></iframe>
+<div class="hint">Ari is here if you get lost ✦</div>
+<aside class="ari" id="ari" aria-label="Ari portfolio assistant">
+<div class="ariBox"><button class="ariClose" id="close" aria-label="بستن">×</button><div class="ariTop"><div class="ariAvatar">A</div><div><div class="ariName">Ari · راهنمای کوچولو</div><div class="ariStatus">● آنلاین و آماده‌ی کمک</div></div></div><p class="ariText" id="ariText">سلام 👋 من Ari ـم! نگران نباش؛ قرار نیست اینجا براتون یک سخنرانی ۴۵ دقیقه‌ای درباره «چشم‌انداز سازمانی» برگزار کنم 😂 اگه دنبال پروژه‌ها یا مهارت‌ها هستین، من راهو نشونتون می‌دم.</p><div class="ariLinks"><a href="./index.v2.html#work" target="portfolio">پروژه‌ها 🚀</a><a href="./index.v2.html#security" target="portfolio">امنیت 🔐</a><a href="./index.v2.html#contact" target="portfolio">ارتباط 👋</a></div></div>
+<button class="ariBubble" id="bubble" aria-label="باز کردن Ari">🤖</button>
+</aside>
+<script>
+(()=>{'use strict';const a=document.getElementById('ari'),b=document.getElementById('bubble'),c=document.getElementById('close'),t=document.getElementById('ariText');const msgs=[
+'سلام 👋 من Ari ـم! قول می‌دم مثل بعضی سایت‌ها ۴۵ دقیقه درباره «چشم‌انداز» حرف نزنم 😂',
+'رسیدیم به پروژه‌ها 😎 اینجا بهتره به‌جای تعریف‌کردن از خودمون، بذاریم پروژه‌ها حرف بزنن.',
+'اگه دنبال تکنولوژی‌ها هستین، یه کم پایین‌تر برید؛ لیست ۷۸ تا ابزار الکی هم نداریم 😂',
+'بخش Security برای وقتی‌ـه که بخوایم ببینیم فقط ظاهر سایت خفنه یا پشتش هم مغز کار می‌کنه 👀',
+'اگه سایت رو کامل دیدین و یه پروژه تو ذهنتونه... خب، اون دکمه Contact الکی اونجا نیست 😏'
+];let i=0;function open(){a.classList.add('open');t.textContent=msgs[i++%msgs.length]}function close(){a.classList.remove('open')}b.onclick=open;c.onclick=close;setTimeout(open,900);setInterval(()=>{if(a.classList.contains('open')){i++;t.textContent=msgs[i%msgs.length]}},8500)})();
+</script>
 </body>
 </html>
